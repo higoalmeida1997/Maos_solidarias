@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
 *.egg-info/
 
@@ -28,3 +29,4 @@ media/
 .vscode/
 .DS_Store
 Thumbs.db
+coverage.xml source /workspaces/Maos_solidarias/.venv/bin/activate
