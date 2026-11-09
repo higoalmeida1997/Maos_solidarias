@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+
+# Segredos e configuração local (nunca publicar)
+.env
+.env.*
+*.pem
+*.key
+
+# Banco de dados local e arquivos gerados
+db.sqlite3
+*.sqlite3
+staticfiles/
+media/
+
+# Editores e sistema
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
