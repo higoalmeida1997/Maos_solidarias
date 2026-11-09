@@ -1,0 +1,21 @@
+{% if alertas.vencidos %}
+<section class="aviso aviso-erro" aria-labelledby="t-vencidos">
+  <h2 id="t-vencidos"><span aria-hidden="true">✖</span> Lotes vencidos (não saem em entrega)</h2>
+  <ul>{% for l in alertas.vencidos %}<li>{{ l.item.nome }}: {{ l.restante }} {{ l.item.get_unidade_display }}, venceu em {{ l.data_validade|date:"d/m/Y" }}</li>{% endfor %}</ul>
+</section>
+{% endif %}
+{% if alertas.vencendo %}
+<section class="aviso aviso-alerta" aria-labelledby="t-vencendo">
+  <h2 id="t-vencendo"><span aria-hidden="true">⚠</span> Vence em até {{ alertas.dias }} dias</h2>
+  <ul>{% for l in alertas.vencendo %}<li>{{ l.item.nome }}: {{ l.restante }} {{ l.item.get_unidade_display }}, vence em {{ l.data_validade|date:"d/m/Y" }}</li>{% endfor %}</ul>
+</section>
+{% endif %}
+{% if alertas.baixos %}
+<section class="aviso aviso-alerta" aria-labelledby="t-baixos">
+  <h2 id="t-baixos"><span aria-hidden="true">⚠</span> Estoque baixo</h2>
+  <ul>{% for b in alertas.baixos %}<li>{{ b.item.nome }}: {{ b.saldo }} {{ b.item.get_unidade_display }} (mínimo {{ b.item.estoque_minimo }})</li>{% endfor %}</ul>
+</section>
+{% endif %}
+{% if not alertas.vencidos and not alertas.vencendo and not alertas.baixos %}
+<p class="aviso aviso-ok"><span aria-hidden="true">✔</span> Nenhum alerta de estoque no momento.</p>
+{% endif %}

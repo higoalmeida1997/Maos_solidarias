@@ -1,0 +1,39 @@
+{% load static %}<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Início{% endblock %} · Mãos Solidárias Digital</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <strong>Mãos Solidárias Digital</strong>
+    {% if user.is_authenticated %}
+    <nav aria-label="Principal">
+      <a href="{% url 'home' %}">Início</a>
+      <a href="{% url 'entrega_nova' %}">Nova entrega</a>
+      <a href="{% url 'familia_lista' %}">Famílias</a>
+      <a href="{% url 'estoque' %}">Estoque</a>
+      <a href="{% url 'entrega_lista' %}">Entregas</a>
+      {% if eh_presidente %}<a href="{% url 'relatorio' %}">Relatório</a>{% endif %}
+      <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}<button type="submit">Sair</button></form>
+    </nav>
+    {% endif %}
+  </header>
+  <main id="conteudo">
+    {% if messages %}
+    <div role="status">
+      {% for m in messages %}
+      <p class="aviso aviso-{{ m.tags }}">
+        <span aria-hidden="true">{% if m.tags == 'success' %}✔{% elif m.tags == 'warning' %}⚠{% else %}✖{% endif %}</span>
+        {{ m }}
+      </p>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% block conteudo %}{% endblock %}
+  </main>
+</body>
+</html>

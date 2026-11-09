@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Nova entrega{% endblock %}
+{% block conteudo %}
+<h1>Nova entrega</h1>
+{% if erro_regra %}
+<p class="aviso aviso-error" role="alert"><span aria-hidden="true">✖</span> {{ erro_regra }}</p>
+{% endif %}
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% include "core/_campo.html" with campo=form.familia %}
+  {% include "core/_campo.html" with campo=form.data_entrega %}
+  <h2>Itens da cesta</h2>
+  <p class="ajuda">Preencha a quantidade só dos itens que vão na cesta. O saldo mostrado já exclui itens vencidos.</p>
+  {% for l in linhas %}
+  <div class="campo">
+    <label for="qtd_{{ l.item.pk }}">{{ l.item.nome }} ({{ l.item.get_unidade_display }}) <span class="obrig">disponível: {{ l.saldo }}</span></label>
+    <input type="text" class="qtd" inputmode="decimal" id="qtd_{{ l.item.pk }}" name="qtd_{{ l.item.pk }}" value="{{ l.valor }}" autocomplete="off">
+    {% if l.erro %}<p class="erro" role="alert"><span aria-hidden="true">✖</span> {{ l.erro }}</p>{% endif %}
+  </div>
+  {% empty %}
+  <p class="aviso aviso-alerta"><span aria-hidden="true">⚠</span> Não há itens cadastrados. Peça à presidente para cadastrar os itens.</p>
+  {% endfor %}
+  {% include "core/_campo.html" with campo=form.observacao %}
+  <button type="submit" class="botao botao-grande">Registrar entrega</button>
+  <a class="botao botao-secundario botao-grande" href="{% url 'home' %}">Cancelar</a>
+</form>
+{% endblock %}
