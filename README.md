@@ -28,19 +28,7 @@ Imagens do protótipo das três telas principais (dados fictícios). Elas reprod
 
 | Menu inicial | Nova entrega | Resultado (bloqueio) e estoque |
 |---|---|---|
-| 
-
-![Menu inicial](docs/telas/01-menu-inicial.png)
-
- | 
-
-![Nova entrega](docs/telas/02-nova-entrega.png)
-
- | 
-
-![Resultado com bloqueio e estoque](docs/telas/03-resultado-bloqueio-e-estoque.png)
-
- |
+| ![Menu inicial](docs/telas/01-menu-inicial.png) | ![Nova entrega](docs/telas/02-nova-entrega.png) | ![Resultado com bloqueio e estoque](docs/telas/03-resultado-bloqueio-e-estoque.png) |
 
 ## Tecnologias
 
