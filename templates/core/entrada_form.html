@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titulo %}Registrar doação{% endblock %}
+{% block conteudo %}
+<h1>Registrar doação recebida</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<p class="aviso aviso-error" role="alert"><span aria-hidden="true">✖</span> {{ form.non_field_errors.0 }}</p>{% endif %}
+  {% include "core/_campo.html" with campo=form.item %}
+  {% include "core/_campo.html" with campo=form.quantidade %}
+  {% include "core/_campo.html" with campo=form.data_validade %}
+  {% include "core/_campo.html" with campo=form.origem %}
+  <button type="submit" class="botao botao-grande">Registrar entrada</button>
+  <a class="botao botao-secundario botao-grande" href="{% url 'estoque' %}">Cancelar</a>
+</form>
+{% endblock %}

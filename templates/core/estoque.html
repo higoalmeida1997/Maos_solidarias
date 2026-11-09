@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Estoque{% endblock %}
+{% block conteudo %}
+<h1>Estoque</h1>
+{% include "core/_alertas.html" %}
+<p>
+  <a class="botao" href="{% url 'entrada_nova' %}">Registrar doação recebida</a>
+  {% if eh_presidente %}<a class="botao botao-secundario" href="{% url 'item_novo' %}">Novo item</a>{% endif %}
+</p>
+<h2>Saldo disponível (dentro da validade)</h2>
+<ul class="cartoes">
+  {% for l in itens %}
+  <li>
+    <strong>{{ l.item.nome }}</strong>: {{ l.saldo }} {{ l.item.get_unidade_display }}
+    {% if l.item.estoque_minimo > 0 and l.saldo < l.item.estoque_minimo %}<span class="selo selo-alerta"><span aria-hidden="true">⚠</span> Estoque baixo</span>
+    {% else %}<span class="selo selo-ok"><span aria-hidden="true">✔</span> Ok</span>{% endif %}
+    {% if eh_presidente %}
+    <form method="post" action="{% url 'descartar_vencidos' l.item.pk %}" class="inline">{% csrf_token %}
+      <button type="submit" class="botao botao-perigo">Descartar vencidos</button>
+    </form>
+    {% endif %}
+  </li>
+  {% empty %}
+  <li>Nenhum item cadastrado.{% if eh_presidente %} Use "Novo item".{% endif %}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

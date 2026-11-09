@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}{% if instancia %}Editar família{% else %}Cadastrar família{% endif %}{% endblock %}
+{% block conteudo %}
+<h1>{% if instancia %}Editar família{% else %}Cadastrar família{% endif %}</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<p class="aviso aviso-error" role="alert"><span aria-hidden="true">✖</span> {{ form.non_field_errors.0 }}</p>{% endif %}
+  {% include "core/_campo.html" with campo=form.nome_responsavel %}
+  {% include "core/_campo.html" with campo=form.contato %}
+  {% include "core/_campo.html" with campo=form.bairro %}
+  {% include "core/_campo.html" with campo=form.num_pessoas %}
+  {% include "core/_campo.html" with campo=form.observacoes %}
+  <p class="ajuda">Coletamos só o necessário para o atendimento. Não peça CPF, renda nem endereço completo.</p>
+  {% if duplicado %}
+  <p class="campo"><label for="confirmar_duplicado"><input type="checkbox" id="confirmar_duplicado" name="confirmar_duplicado" value="1"> É outra família, quero cadastrar mesmo assim</label></p>
+  {% endif %}
+  <button type="submit" class="botao botao-grande">Salvar família</button>
+  <a class="botao botao-secundario botao-grande" href="{% url 'familia_lista' %}">Cancelar</a>
+</form>
+{% endblock %}

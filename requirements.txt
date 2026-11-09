@@ -1,0 +1,8 @@
+Django>=5.2,<5.3
+psycopg[binary]>=3.2
+gunicorn>=22
+whitenoise>=6.7
+# desenvolvimento e testes
+pytest>=8
+pytest-django>=4.8
+pip-audit>=2.7

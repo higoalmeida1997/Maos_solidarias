@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block titulo %}Famílias{% endblock %}
+{% block conteudo %}
+<h1>Famílias</h1>
+<form method="get" class="busca" role="search">
+  <div class="campo">
+    <label for="q">Buscar pelo nome do responsável</label>
+    <input type="search" id="q" name="q" value="{{ q }}" maxlength="100">
+  </div>
+  <button type="submit" class="botao">Buscar</button>
+</form>
+<p>
+  <a class="botao" href="{% url 'familia_nova' %}">Cadastrar família</a>
+  {% if mostrar_inativas %}<a class="botao botao-secundario" href="?q={{ q|urlencode }}">Ocultar inativas</a>
+  {% else %}<a class="botao botao-secundario" href="?q={{ q|urlencode }}&amp;inativas=1">Mostrar inativas</a>{% endif %}
+</p>
+{% if pagina.object_list %}
+<ul class="cartoes">
+  {% for f in pagina %}
+  <li>
+    <strong>{{ f.nome_responsavel }}</strong> {% if not f.ativa %}<span class="selo selo-alerta"><span aria-hidden="true">⚠</span> Inativa</span>{% endif %}<br>
+    {{ f.bairro }} · {{ f.num_pessoas }} pessoa{{ f.num_pessoas|pluralize }}{% if f.contato %} · {{ f.contato }}{% endif %}<br>
+    <a class="botao botao-secundario" href="{% url 'familia_editar' f.pk %}">Editar</a>
+    {% if eh_presidente %}
+    <form method="post" action="{% url 'familia_alternar' f.pk %}" class="inline">{% csrf_token %}
+      <button type="submit" class="botao botao-secundario">{% if f.ativa %}Inativar{% else %}Ativar{% endif %}</button>
+    </form>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% if pagina.has_other_pages %}
+<p>
+  {% if pagina.has_previous %}<a class="botao botao-secundario" href="?q={{ q|urlencode }}&amp;pagina={{ pagina.previous_page_number }}{% if mostrar_inativas %}&amp;inativas=1{% endif %}">Anterior</a>{% endif %}
+  Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}
+  {% if pagina.has_next %}<a class="botao botao-secundario" href="?q={{ q|urlencode }}&amp;pagina={{ pagina.next_page_number }}{% if mostrar_inativas %}&amp;inativas=1{% endif %}">Próxima</a>{% endif %}
+</p>
+{% endif %}
+{% else %}
+<p class="aviso aviso-alerta"><span aria-hidden="true">⚠</span> Nenhuma família encontrada.</p>
+{% endif %}
+{% endblock %}

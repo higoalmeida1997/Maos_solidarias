@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h1>Início</h1>
+<ul class="menu">
+  <li><a class="botao botao-grande" href="{% url 'entrega_nova' %}">Nova entrega</a></li>
+  <li><a class="botao botao-grande botao-secundario" href="{% url 'familia_nova' %}">Cadastrar família</a></li>
+  <li><a class="botao botao-grande botao-secundario" href="{% url 'entrada_nova' %}">Registrar doação recebida</a></li>
+  <li><a class="botao botao-grande botao-secundario" href="{% url 'estoque' %}">Ver estoque</a></li>
+</ul>
+<h2>Alertas de estoque</h2>
+{% include "core/_alertas.html" %}
+{% endblock %}

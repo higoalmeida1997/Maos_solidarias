@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}Entregas{% endblock %}
+{% block conteudo %}
+<h1>Entregas de {{ mes_ref }}</h1>
+<form method="get" class="busca">
+  <div class="campo">
+    <label for="mes">Mês (AAAA-MM)</label>
+    <input type="text" id="mes" name="mes" value="{{ mes_ref }}" pattern="[0-9]{4}-[0-9]{2}" inputmode="numeric">
+  </div>
+  <button type="submit" class="botao">Ver mês</button>
+</form>
+<ul class="cartoes">
+  {% for e in entregas %}
+  <li>
+    <a href="{% url 'entrega_detalhe' e.pk %}"><strong>{{ e.familia.nome_responsavel }}</strong></a>
+    · {{ e.data_entrega|date:"d/m/Y" }} · por {{ e.usuario.get_username }}
+    {% if e.cancelada %}<span class="selo selo-erro"><span aria-hidden="true">✖</span> Cancelada</span>{% endif %}
+  </li>
+  {% empty %}
+  <li>Nenhuma entrega neste mês.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

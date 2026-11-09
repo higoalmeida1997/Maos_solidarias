@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Entrega{% endblock %}
+{% block conteudo %}
+<h1>Entrega registrada</h1>
+{% if entrega.cancelada %}
+<p class="aviso aviso-error"><span aria-hidden="true">✖</span> Entrega cancelada em {{ entrega.cancelada_em|date:"d/m/Y H:i" }}. O estoque foi devolvido.</p>
+{% endif %}
+<ul class="cartoes">
+  <li><strong>Família:</strong> {{ entrega.familia.nome_responsavel }} ({{ entrega.familia.bairro }})</li>
+  <li><strong>Data:</strong> {{ entrega.data_entrega|date:"d/m/Y" }} · registrada por {{ entrega.usuario.get_username }}</li>
+  <li><strong>Itens:</strong>
+    <ul>{% for i in itens %}<li>{{ i.item.nome }}: {{ i.quantidade }} {{ i.item.get_unidade_display }}</li>{% endfor %}</ul>
+  </li>
+  {% if entrega.observacao %}<li><strong>Observação:</strong> {{ entrega.observacao }}</li>{% endif %}
+</ul>
+{% if eh_presidente and not entrega.cancelada %}
+<form method="post" action="{% url 'entrega_cancelar' entrega.pk %}">{% csrf_token %}
+  <button type="submit" class="botao botao-perigo">Cancelar entrega e devolver estoque</button>
+</form>
+{% endif %}
+<h2>Alertas de estoque</h2>
+{% include "core/_alertas.html" %}
+<a class="botao" href="{% url 'entrega_nova' %}">Nova entrega</a>
+<a class="botao botao-secundario" href="{% url 'home' %}">Início</a>
+{% endblock %}

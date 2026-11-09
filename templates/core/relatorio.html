@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titulo %}Relatório mensal{% endblock %}
+{% block conteudo %}
+<h1>Relatório de {{ dados.mes_referencia }}</h1>
+<form method="get" class="busca">
+  <div class="campo"><label for="ano">Ano</label><input type="number" id="ano" name="ano" value="{{ ano }}" min="2020" max="2100"></div>
+  <div class="campo"><label for="mes">Mês</label><input type="number" id="mes" name="mes" value="{{ mes }}" min="1" max="12"></div>
+  <button type="submit" class="botao">Ver</button>
+</form>
+<p class="aviso aviso-ok"><strong>{{ dados.total_familias }}</strong> família{{ dados.total_familias|pluralize }} atendida{{ dados.total_familias|pluralize }} em {{ dados.total_entregas }} entrega{{ dados.total_entregas|pluralize }}.</p>
+<h2>Quantidade entregue por item</h2>
+<ul class="cartoes">{% for l in dados.entregue %}<li>{{ l.item__nome }}: {{ l.total }} {{ l.item__unidade }}</li>{% empty %}<li>Sem entregas no mês.</li>{% endfor %}</ul>
+<h2>Doações recebidas</h2>
+<ul class="cartoes">{% for l in dados.doado %}<li>{{ l.item__nome }}: {{ l.total }} {{ l.item__unidade }}</li>{% empty %}<li>Sem doações no mês.</li>{% endfor %}</ul>
+<p><a class="botao botao-secundario" href="?ano={{ ano }}&amp;mes={{ mes }}&amp;formato=csv">Baixar planilha (CSV)</a></p>
+<p class="ajuda">O relatório traz apenas totais, sem dados pessoais das famílias.</p>
+{% endblock %}
